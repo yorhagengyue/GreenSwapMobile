@@ -229,6 +229,17 @@ class _MessagePageState extends State<MessagePage> with TickerProviderStateMixin
       pinned: true,
       backgroundColor: Colors.white,
       elevation: 0,
+      leading: IconButton(
+        icon: Container(
+          padding: const EdgeInsets.all(8),
+          decoration: BoxDecoration(
+            color: Colors.grey[100],
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: const Icon(Icons.arrow_back, color: Colors.black87, size: 20),
+        ),
+        onPressed: () => Navigator.of(context).pop(),
+      ),
       flexibleSpace: FlexibleSpaceBar(
         background: Container(
           decoration: BoxDecoration(
@@ -385,37 +396,43 @@ class _MessagePageState extends State<MessagePage> with TickerProviderStateMixin
               itemBuilder: (context, index) {
                 final action = _quickActions[index];
                 return Container(
-                  margin: const EdgeInsets.only(right: 16),
+                  width: 120,
+                  margin: const EdgeInsets.only(right: 12),
                   child: GestureDetector(
                     onTap: () => _handleQuickAction(action.title),
-                    child: Column(
-                      children: [
-                        Container(
-                          width: 50,
-                          height: 50,
-                          decoration: BoxDecoration(
-                            color: action.color.withOpacity(0.1),
-                            borderRadius: BorderRadius.circular(16),
-                            border: Border.all(
-                              color: action.color.withOpacity(0.3),
-                            ),
-                          ),
-                          child: Icon(
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                      decoration: BoxDecoration(
+                        color: action.color.withOpacity(0.05),
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(
+                          color: action.color.withOpacity(0.2),
+                        ),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
                             action.icon,
                             color: action.color,
-                            size: 24,
+                            size: 20,
                           ),
-                        ),
-                        const SizedBox(height: 4),
-                        Text(
-                          action.title,
-                          style: GoogleFonts.poppins(
-                            fontSize: 10,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.grey[700],
+                          const SizedBox(width: 8),
+                          Expanded(
+                            child: Text(
+                              action.title,
+                              style: GoogleFonts.poppins(
+                                fontSize: 11,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.grey[800],
+                              ),
+                              textAlign: TextAlign.center,
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 2,
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ).animate().fadeIn(delay: Duration(milliseconds: index * 100)).scale(begin: const Offset(0.8, 0.8));
@@ -483,19 +500,22 @@ class _MessagePageState extends State<MessagePage> with TickerProviderStateMixin
                     ),
                   ),
                   if (unreadCount > 0) ...[
-                    const SizedBox(width: 6),
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                      decoration: BoxDecoration(
-                        color: isSelected ? Colors.white.withOpacity(0.3) : Colors.red,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Text(
-                        unreadCount.toString(),
-                        style: GoogleFonts.poppins(
-                          color: isSelected ? Colors.white : Colors.white,
-                          fontSize: 10,
-                          fontWeight: FontWeight.bold,
+                    const SizedBox(width: 8),
+                    Transform.translate(
+                      offset: const Offset(0, -1),
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1),
+                        decoration: BoxDecoration(
+                          color: isSelected ? Colors.white.withOpacity(0.35) : Colors.red,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Text(
+                          unreadCount.toString(),
+                          style: GoogleFonts.poppins(
+                            color: Colors.white,
+                            fontSize: 9,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                     ),
@@ -599,7 +619,7 @@ class _MessagePageState extends State<MessagePage> with TickerProviderStateMixin
                               decoration: BoxDecoration(
                                 color: Colors.green,
                                 shape: BoxShape.circle,
-                                border: Border.all(color: Colors.white, width: 2),
+                                border: Border.all(color: Colors.white, width: 2.5),
                               ),
                             ),
                           ),
